@@ -3,6 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.smartregister.p2p.sample">
 
+    <!-- Required only if your app needs to access images or photos
+     that other apps created. -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
+    <!-- Required only if your app needs to access videos
+         that other apps created. -->
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+
+    <!-- Required only if your app needs to access audio files
+         that other apps created. -->
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
@@ -14,7 +26,8 @@
         android:supportsRtl="true"
         android:name=".SampleApplication"
         android:theme="@style/AppTheme">
-        <activity android:name="org.smartregister.p2p.sample.MainActivity">
+        <activity android:name="org.smartregister.p2p.sample.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

@@ -1,7 +1,10 @@
 package org.smartregister.p2p.util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.wifi.WifiManager;
+import android.os.Build;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 
@@ -24,31 +27,38 @@ public class Device {
      *
      * @return
      */
-    @Nullable @WorkerThread
+    @Nullable
+    @WorkerThread
     public static final String generateUniqueDeviceId(Context context) {
         String uniqueId = null;
-        if(context != null) {
-                WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-                boolean wasWifiEnabled = wifiManager.isWifiEnabled();
+        if (context != null) {
+            WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+            boolean wasWifiEnabled = wifiManager.isWifiEnabled();
 
-                //TODO: Test if hotspot on and wifi enabled are the same thing
-                if (!wifiManager.isWifiEnabled()) {
+            //TODO: Test if hotspot on and wifi enabled are the same thing
+            if (!wifiManager.isWifiEnabled()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    context.getApplicationContext().startActivity(new Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY));
+                } else {
                     // ENABLE THE WIFI FIRST
                     wifiManager.setWifiEnabled(true);
                 }
+            }
 
-                try {
-                    // Let's give the device some-time to start the wifi
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    Timber.e(e);
-                }
+            try {
+                // Let's give the device some-time to start the wifi
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Timber.e(e);
+            }
 
-                uniqueId = getMacAddress();
+            uniqueId = getMacAddress();
 
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
                 if (!wasWifiEnabled) {
                     wifiManager.setWifiEnabled(false);
                 }
+            }
         }
 
         return uniqueId;
@@ -57,7 +67,7 @@ public class Device {
     /**
      * This method returns WLAN0's MAC Address
      *
-     * @return  WLAN0 MAC address or NULL if unable to get the mac address
+     * @return WLAN0 MAC address or NULL if unable to get the mac address
      */
     @Nullable
     public static String getMacAddress() {
