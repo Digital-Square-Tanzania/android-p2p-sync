@@ -1,8 +1,8 @@
 package org.smartregister.p2p.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import android.support.annotation.NonNull;
 
 /**
  * Created by Ephraim Kigamba - ekigamba@ona.io on 26/03/2019

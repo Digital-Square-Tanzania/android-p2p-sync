@@ -4,7 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import org.smartregister.p2p.model.SendingDevice;
 
