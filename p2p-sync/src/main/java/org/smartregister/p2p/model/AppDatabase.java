@@ -6,11 +6,12 @@ import androidx.room.RoomDatabase;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import net.zetetic.database.sqlcipher.SQLiteDatabase;
 import net.zetetic.database.sqlcipher.SupportOpenHelperFactory;
 
 import org.smartregister.p2p.model.dao.P2pReceivedHistoryDao;
 import org.smartregister.p2p.model.dao.SendingDeviceDao;
+
+import java.nio.charset.Charset;
 
 /**
  * Created by Ephraim Kigamba - ekigamba@ona.io on 26/03/2019
@@ -24,8 +25,8 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public static AppDatabase getInstance(@NonNull Context context, @NonNull String passphrase) {
         if (instance == null) {
-            SupportOpenHelperFactory openHelperFactory =
-                    new SupportOpenHelperFactory(SQLiteDatabase.getBytes(passphrase.toCharArray()));
+            byte[] passphraseBytes = passphrase.getBytes(Charset.forName("UTF-8"));
+            SupportOpenHelperFactory openHelperFactory = new SupportOpenHelperFactory(passphraseBytes);
 
             instance = Room.databaseBuilder(context.getApplicationContext(),
                     AppDatabase.class, DB_NAME)

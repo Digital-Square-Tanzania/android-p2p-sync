@@ -156,8 +156,8 @@ dependencies {
     // Room Test helpers
     testImplementation "androidx.room:room-testing:$room_version"
 
-    // SQLCipher (16KB-aligned native libs in 4.x)
-    implementation 'net.zetetic:sqlcipher-android:4.13.0'
+    // SQLCipher (4.x, Java 8/11 compatible)
+    implementation 'net.zetetic:sqlcipher-android:4.5.4'
 
 }
 
