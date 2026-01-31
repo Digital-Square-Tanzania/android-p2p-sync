@@ -156,8 +156,8 @@ dependencies {
     // Room Test helpers
     testImplementation "androidx.room:room-testing:$room_version"
 
-    // Encrypted SQLite help
-    implementation "com.commonsware.cwac:saferoom:1.0.2"
+    // SQLCipher (16KB-aligned native libs in 4.x)
+    implementation 'net.zetetic:sqlcipher-android:4.13.0'
 
 }
 
