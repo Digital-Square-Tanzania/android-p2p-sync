@@ -1,16 +1,17 @@
 package org.smartregister.p2p.model;
 
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.Room;
-import android.arch.persistence.room.RoomDatabase;
+import androidx.room.Database;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.text.SpannableStringBuilder;
+import androidx.annotation.NonNull;
 
-import com.commonsware.cwac.saferoom.SafeHelperFactory;
+import net.zetetic.database.sqlcipher.SupportOpenHelperFactory;
 
 import org.smartregister.p2p.model.dao.P2pReceivedHistoryDao;
 import org.smartregister.p2p.model.dao.SendingDeviceDao;
+
+import java.nio.charset.Charset;
 
 /**
  * Created by Ephraim Kigamba - ekigamba@ona.io on 26/03/2019
@@ -24,11 +25,12 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public static AppDatabase getInstance(@NonNull Context context, @NonNull String passphrase) {
         if (instance == null) {
-            SafeHelperFactory safeHelperFactory = SafeHelperFactory.fromUser(new SpannableStringBuilder(passphrase));
+            byte[] passphraseBytes = passphrase.getBytes(Charset.forName("UTF-8"));
+            SupportOpenHelperFactory openHelperFactory = new SupportOpenHelperFactory(passphraseBytes);
 
             instance = Room.databaseBuilder(context.getApplicationContext(),
                     AppDatabase.class, DB_NAME)
-                    .openHelperFactory(safeHelperFactory)
+                    .openHelperFactory(openHelperFactory)
                     .build();
         }
 
